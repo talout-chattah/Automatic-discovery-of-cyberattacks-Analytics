@@ -1,0 +1,3587 @@
+{
+  "nbNodes" : 17,
+  "nbSecrets" : 5,
+  "secrets" : [ "ExternCustomerSecret", "InternCustomerSecret", "IoTFrontSecret", "DmzSecret", "secretInfo" ],
+  "nodes" : [ {
+    "name" : "DmzLinx",
+    "softwareClass" : "Linux",
+    "text" : "Linux Server Kernel",
+    "kernelIndex" : 0,
+    "nbRoles" : 3,
+    "nbInputs" : 2,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, true, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "ExBrowser",
+    "softwareClass" : "RichBrowser",
+    "text" : "External/Internet Customer Browser",
+    "kernelIndex" : 3,
+    "nbRoles" : 3,
+    "nbInputs" : 7,
+    "nodeType" : "user",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 2,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "client",
+      "protocol" : "httpss",
+      "type" : "functional",
+      "categ" : "mandatory",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, true, false ]
+    }, {
+      "name" : "x/app",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/kernel",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 10,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 2,
+      "debug_sourceNodeName" : "ExtHack",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & ExtHack <> $N"
+    }, {
+      "sourceNodeIndex" : 3,
+      "debug_sourceNodeName" : "ExtWind",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 8,
+      "debug_sourceNodeName" : "Internet",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 3,
+      "debug_sourceNodeName" : "ExtWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "ExtHack",
+    "softwareClass" : "Linux",
+    "text" : "Hacker Kernel",
+    "kernelIndex" : 2,
+    "nbRoles" : 3,
+    "nbInputs" : 6,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtHack <> $N & Internet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 1,
+      "debug_sourceNodeName" : "ExBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtHack <> $N & Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 3,
+      "debug_sourceNodeName" : "ExtWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtHack <> $N & Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtHack <> $N & Internet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 8,
+      "debug_sourceNodeName" : "Internet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtHack <> $N & Internet <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtHack <> $N & Internet <> $N & FW <> $N & DmzLinx <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "ExtWind",
+    "softwareClass" : "WindowsDesktop",
+    "text" : "Kernel",
+    "kernelIndex" : 3,
+    "nbRoles" : 3,
+    "nbInputs" : 6,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ true, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 50,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 40,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 50,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 40,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 2,
+      "debug_sourceNodeName" : "ExtHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & ExtHack <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 8,
+      "debug_sourceNodeName" : "Internet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N & Internet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 1,
+      "debug_sourceNodeName" : "ExBrowser",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "ExtWind <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "FW",
+    "softwareClass" : "SwitchFw",
+    "text" : "Firewall Firmware",
+    "kernelIndex" : 4,
+    "nbRoles" : 3,
+    "nbInputs" : 16,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : null,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : 15,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/SwitchFw",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : null,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : null,
+      "remoteSecrTheftCost" : null,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/SwitchFw",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : null,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : null,
+      "remoteSecrTheftCost" : null,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/SwitchFw",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 80,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 60,
+      "remoteSecrTheftCost" : null,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 1,
+      "debug_sourceNodeName" : "ExBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 2,
+      "debug_sourceNodeName" : "ExtHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Internet <> $N & ExtHack <> $N"
+    }, {
+      "sourceNodeIndex" : 3,
+      "debug_sourceNodeName" : "ExtWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 8,
+      "debug_sourceNodeName" : "Internet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Internet <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "FW <> $N & DmzLinx <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "InBrowser",
+    "softwareClass" : "RichBrowser",
+    "text" : "External/Internet Customer Browser",
+    "kernelIndex" : 7,
+    "nbRoles" : 3,
+    "nbInputs" : 11,
+    "nodeType" : "user",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 2,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "client",
+      "protocol" : "httpss",
+      "type" : "functional",
+      "categ" : "mandatory",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, true, false, false ]
+    }, {
+      "name" : "x/app",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/kernel",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 10,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IntHack",
+    "softwareClass" : "Linux",
+    "text" : "Hacker Kernel",
+    "kernelIndex" : 6,
+    "nbRoles" : 3,
+    "nbInputs" : 10,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntHack <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IntWind",
+    "softwareClass" : "WindowsDesktop",
+    "text" : "Kernel",
+    "kernelIndex" : 7,
+    "nbRoles" : 3,
+    "nbInputs" : 10,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, true, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 50,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 40,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/WindowsDesktop",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 50,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 40,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IntWind <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "Internet",
+    "softwareClass" : "Linux",
+    "text" : "Internet",
+    "kernelIndex" : 8,
+    "nbRoles" : 3,
+    "nbInputs" : 6,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Internet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 1,
+      "debug_sourceNodeName" : "ExBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 2,
+      "debug_sourceNodeName" : "ExtHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Internet <> $N & ExtHack <> $N"
+    }, {
+      "sourceNodeIndex" : 3,
+      "debug_sourceNodeName" : "ExtWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Internet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Internet <> $N & FW <> $N & DmzLinx <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "Intranet",
+    "softwareClass" : "Linux",
+    "text" : "router kernel",
+    "kernelIndex" : 9,
+    "nbRoles" : 3,
+    "nbInputs" : 10,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "Intranet <> $N & IoTLinx2 <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IoTFront",
+    "softwareClass" : "WebApp",
+    "text" : "http 2 server",
+    "kernelIndex" : 11,
+    "nbRoles" : 5,
+    "nbInputs" : 45,
+    "nodeType" : "user",
+    "plausThreshold" : 2,
+    "actThreshold" : 1,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, true ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "server",
+      "protocol" : "httpss",
+      "type" : "functional",
+      "categ" : "transparent",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, true, false, true, false ]
+    }, {
+      "name" : "client/iot1",
+      "protocol" : "coaps",
+      "type" : "functional",
+      "categ" : "optional",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 25,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "client/iot2",
+      "protocol" : "coaps",
+      "type" : "functional",
+      "categ" : "optional",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 25,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/app",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/kernel",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 10,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "mitm",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "side",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "side",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "side",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "side",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "mitm",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "side",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 16,
+      "debug_sourceNodeName" : "RevProxy",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N & DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "peer",
+      "roleIndex" : 4,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IoTLinux",
+    "softwareClass" : "Linux",
+    "text" : "router kernel",
+    "kernelIndex" : 11,
+    "nbRoles" : 3,
+    "nbInputs" : 10,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, true, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinux <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IoTLinx1",
+    "softwareClass" : "Linux",
+    "text" : "Kernel",
+    "kernelIndex" : 12,
+    "nbRoles" : 3,
+    "nbInputs" : 10,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IoTLinx2",
+    "softwareClass" : "Linux",
+    "text" : "Kernel",
+    "kernelIndex" : 13,
+    "nbRoles" : 3,
+    "nbInputs" : 10,
+    "nodeType" : "kernel",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "x/user",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/root",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 10,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/network",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 60,
+      "bCodeInjectCost" : null,
+      "nCodeInjectCost" : 50,
+      "remoteSecrTheftCost" : 50,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IoTsens1",
+    "softwareClass" : "WebApp",
+    "text" : "Server Coap 1",
+    "kernelIndex" : 12,
+    "nbRoles" : 3,
+    "nbInputs" : 11,
+    "nodeType" : "user",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, true ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "server",
+      "protocol" : "coaps",
+      "type" : "functional",
+      "categ" : "transparent",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 25,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/app",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/kernel",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 10,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 15,
+      "debug_sourceNodeName" : "IoTsens2",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx1 <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "IoTsens2",
+    "softwareClass" : "PosixApp",
+    "text" : "Server Coap 2",
+    "kernelIndex" : 13,
+    "nbRoles" : 3,
+    "nbInputs" : 11,
+    "nodeType" : "user",
+    "plausThreshold" : 1,
+    "actThreshold" : 0,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, true ],
+    "monBypassCost" : {
+      "toM" : 30,
+      "toB" : 15,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "server",
+      "protocol" : "coaps",
+      "type" : "functional",
+      "categ" : "transparent",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 25,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/app",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/kernel",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 10,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 5,
+      "debug_sourceNodeName" : "InBrowser",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 14,
+      "debug_sourceNodeName" : "IoTsens1",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 10,
+        "theft" : 25,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "peer",
+      "roleIndex" : 2,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "IoTLinx2 <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  }, {
+    "name" : "RevProxy",
+    "softwareClass" : "WebApp",
+    "text" : "Reverse Proxy Http",
+    "kernelIndex" : 0,
+    "nbRoles" : 4,
+    "nbInputs" : 16,
+    "nodeType" : "user",
+    "plausThreshold" : 2,
+    "actThreshold" : 1,
+    "secrTheftCost" : 10,
+    "secrStore" : [ false, false, false, false, false ],
+    "monBypassCost" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "roles" : [ {
+      "name" : "server",
+      "protocol" : "httpss",
+      "type" : "functional",
+      "categ" : "mandatory",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 20,
+      "sessionProtectSecretIndex" : [ true, false, false, false, false ]
+    }, {
+      "name" : "client",
+      "protocol" : "httpss",
+      "type" : "functional",
+      "categ" : "mandatory",
+      "dataBreakCost" : 5,
+      "mCodeInjectCost" : 25,
+      "bCodeInjectCost" : 25,
+      "nCodeInjectCost" : 15,
+      "remoteSecrTheftCost" : 25,
+      "sessionProtectSecretIndex" : [ false, false, true, false, false ]
+    }, {
+      "name" : "x/app",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 20,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    }, {
+      "name" : "x/kernel",
+      "protocol" : "x/Linux",
+      "type" : "system",
+      "categ" : "mandatory",
+      "dataBreakCost" : null,
+      "mCodeInjectCost" : 10,
+      "bCodeInjectCost" : 10,
+      "nCodeInjectCost" : 1,
+      "remoteSecrTheftCost" : 10,
+      "sessionProtectSecretIndex" : [ false, false, false, false, false ]
+    } ],
+    "inputs" : [ {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "mitm",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "mitm",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 6,
+      "debug_sourceNodeName" : "IntHack",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Intranet <> $N & IntHack <> $N"
+    }, {
+      "sourceNodeIndex" : 7,
+      "debug_sourceNodeName" : "IntWind",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Intranet <> $N & IntWind <> $N"
+    }, {
+      "sourceNodeIndex" : 9,
+      "debug_sourceNodeName" : "Intranet",
+      "position" : "mitm",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Intranet <> $N"
+    }, {
+      "sourceNodeIndex" : 10,
+      "debug_sourceNodeName" : "IoTFront",
+      "position" : "peer",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 11,
+      "debug_sourceNodeName" : "IoTLinux",
+      "position" : "mitm",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Intranet <> $N & IoTLinux <> $N"
+    }, {
+      "sourceNodeIndex" : 12,
+      "debug_sourceNodeName" : "IoTLinx1",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Intranet <> $N & IoTLinx1 <> $N"
+    }, {
+      "sourceNodeIndex" : 13,
+      "debug_sourceNodeName" : "IoTLinx2",
+      "position" : "side",
+      "roleIndex" : 1,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Intranet <> $N & IoTLinx2 <> $N"
+    }, {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N"
+    }, {
+      "sourceNodeIndex" : 1,
+      "debug_sourceNodeName" : "ExBrowser",
+      "position" : "peer",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 2,
+      "debug_sourceNodeName" : "ExtHack",
+      "position" : "side",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 20,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Internet <> $N & ExtHack <> $N"
+    }, {
+      "sourceNodeIndex" : 3,
+      "debug_sourceNodeName" : "ExtWind",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Internet <> $N & ExtWind <> $N"
+    }, {
+      "sourceNodeIndex" : 4,
+      "debug_sourceNodeName" : "FW",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N"
+    }, {
+      "sourceNodeIndex" : 8,
+      "debug_sourceNodeName" : "Internet",
+      "position" : "mitm",
+      "roleIndex" : 0,
+      "protBreakCosts" : {
+        "destruct" : 0,
+        "theft" : 30,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N & FW <> $N & Internet <> $N"
+    }, {
+      "sourceNodeIndex" : 0,
+      "debug_sourceNodeName" : "DmzLinx",
+      "position" : "peer",
+      "roleIndex" : 3,
+      "protBreakCosts" : {
+        "destruct" : null,
+        "theft" : 0,
+        "tunnelProtocol" : null,
+        "tunnelDecrypt" : null,
+        "tunnelDestroy" : null
+      },
+      "isOpen" : "DmzLinx <> $N"
+    } ],
+    "fallbackActionIndex" : {
+      "toM" : null,
+      "toB" : null,
+      "toN" : null
+    },
+    "debug_fallbackActionNames" : "null,null,null"
+  } ],
+  "fallbackActions" : [ ]
+}

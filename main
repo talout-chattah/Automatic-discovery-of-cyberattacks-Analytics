@@ -1,0 +1,284 @@
+import json
+import os 
+import tkinter as tk
+from tkinter import ttk
+import Functions.CostCalculation   as C
+from Functions.FilesManupilation import extractTrace, find_and_remove_duplicates
+from modules.statiscticsClass.resultStruct import resultStruct
+from modules.statiscticsClass.nodeStatistics import nodeStatistics
+from modules.statiscticsClass.protBreakCostStatistics import protBreakCostStatistics 
+from modules.statiscticsClass.roleStatistics import roleStatistics
+from modules.statiscticsClass.attackTypeStatistics import attackTypeStatistics
+from modules.protBreakCosts import protBreakCosts
+from modules.System import System
+from modules.node import node
+from modules.role import role
+from modules.input import input
+
+
+global stolenSecrets
+global nbkeys 
+nbkeys = 5
+
+directory="data/traces"
+resultStructure = []
+
+with open('./data/Medium.json', 'r') as file:
+    data = json.load(file)
+
+listofnodes = [] 
+for id, anode in enumerate(data['nodes']):
+    listofroles = []
+    for arole in anode['roles']:
+        nrole = role(arole['name'],
+                    arole['protocol'],
+                    arole['type'],
+                    arole['categ'],
+                    arole['dataBreakCost'],
+                    arole['mCodeInjectCost'],
+                    arole['bCodeInjectCost'],
+                    arole['nCodeInjectCost'],
+                    arole['remoteSecrTheftCost'],
+                    arole['sessionProtectSecretIndex'])
+        listofroles.append(nrole)
+    listofinputs = []
+    for ainput in anode['inputs']:
+        ninput = input(ainput['sourceNodeIndex'],
+                      ainput['debug_sourceNodeName'],
+                      ainput['position'],
+                      ainput['roleIndex'],
+                      ainput['isOpen'],
+                      protBreakCosts(ainput['protBreakCosts']['destruct'], 
+                                     ainput['protBreakCosts']['theft'], 
+                                     ainput['protBreakCosts']['tunnelProtocol'], 
+                                     ainput['protBreakCosts']['tunnelDecrypt'], 
+                                     ainput['protBreakCosts']['tunnelDestroy']))
+        listofinputs.append(ninput)  
+    nnode = node(id,
+                anode['name'], 
+                anode['softwareClass'],
+                anode['text'], 
+                anode['kernelIndex'], 
+                anode['nbRoles'], 
+                anode['nbInputs'], 
+                anode['nodeType'], 
+                anode['plausThreshold'], 
+                anode['actThreshold'], 
+                anode['secrTheftCost'], 
+                anode['debug_fallbackActionNames'],
+                anode['secrStore'],
+                anode['monBypassCost'],
+                listofroles,
+                listofinputs,
+                anode['fallbackActionIndex'])
+    listofnodes.append(nnode)
+
+NodesKernels = [None ,3,None,None,None,7,None,None,None,None,11,None,None,None,12,13,0]
+
+
+for nodeIndex, anode in enumerate(listofnodes):
+    rStatistics = []
+    for roleIndex, arole in enumerate(anode.roles):
+        destructStatistics = attackTypeStatistics('destruct', 0, 0, 0)
+        theftStatistics = attackTypeStatistics('theft', 0, 0, 0)
+        pbcStatistics = protBreakCostStatistics(destructStatistics, theftStatistics)
+        rStatistics.append(roleStatistics( roleIndex, 0, 0, 0, 0, 0, 0, pbcStatistics))  
+    nStatistics = nodeStatistics( 0, rStatistics)
+    res = resultStruct(nodeIndex, nStatistics)
+    resultStructure.append(res)
+        
+#etapes = extractTrace('data/Testtrace.xtr', 5, 17)
+#etapes = extractTrace('data/SecretStealtrace.xtr', 5, 17)
+#etapes = extractTrace('data/trace.xtr', 5, 17)
+#etapes = extractTrace('data/FtoBTest.xtr', 5, 17)
+#etapes = extractTrace('data/MtoMTest.xtr', 5, 17)
+#etapes = extractTrace('data/FtoFTest.xtr', 5, 17)
+
+
+'''step = 0
+example_node_id = 1
+
+stolenSecrets =  etapes[step].keys_state
+nodesStates = etapes[step].nodes_state
+step_cumulated_cost= etapes[step].step_cumulated_cost
+step_count = etapes[step].step_count
+#'''
+
+
+
+'''
+print('------------------trace info---------------')
+print(stolenSecrets)
+print(nodesStates)
+print('step cost = ', step_cumulated_cost)
+print('stepNb = ', step_count)
+print('-------------------------------------------')
+#'''
+
+
+
+'''pour la verification du cout'''
+#print('computed cost = ', C.t1FtoN(mySystem,  mySystem.nodes[example_node_id]))
+#print('computed cost = ', C.t2FtoB(mySystem,  mySystem.nodes[example_node_id]))
+#print('computed cost = ', C.t3FtoM(mySystem,  mySystem.nodes[example_node_id]))
+#print('computed cost = ', C.t4FtoF(mySystem,  mySystem.nodes[example_node_id]))
+#print('computed cost = ', C.t5MtoM(mySystem,  mySystem.nodes[example_node_id]))
+
+
+
+
+
+find_and_remove_duplicates(directory)
+
+
+
+#'''
+for file in os.listdir(directory):
+    if file.endswith(".xtr"):
+        filepath = os.path.join(directory, file)
+        etapes = extractTrace(filepath, 5, 17)
+        stolenSecrets =  etapes[0].keys_state
+        nodesStates = etapes[0].nodes_state
+        mySystem = System(data['nbNodes'],
+                  data['nbSecrets'], 
+                  data['secrets'], 
+                  listofnodes, 
+                  data['fallbackActions'],
+                  stolenSecrets,
+                  nodesStates,
+                  NodesKernels,
+                  resultStructure)
+        for step in range(1, len(etapes)): 
+            TracestolenSecrets =  etapes[step].keys_state
+            nodesTraceStates = etapes[step].nodes_state
+            traceStepCost = etapes[step].step_cumulated_cost
+            previousStepCost = etapes[step-1].step_cumulated_cost
+            print("step: ",etapes[step].step_count)
+            print("mySystem:", mySystem.nodesStates)
+            for i, (traceNode, systemNode) in enumerate(zip(nodesTraceStates, mySystem.nodesStates)):
+                if(step == 0):
+                    break ####
+                if traceNode != systemNode:
+                    #print("Index of different element:", i)
+                    if(traceNode == 'sB'):
+                        print("F2B",C.t2FtoB(mySystem,  mySystem.nodes[i]))
+                    elif(traceNode == 'sM'):
+                        print("F2M", C.t3FtoM(mySystem,  mySystem.nodes[i]))
+                    elif(traceNode == 'sN'):
+                        print("F2N", C.t1FtoN(mySystem,  mySystem.nodes[i]))
+                        print((int(traceStepCost) - int(previousStepCost)))
+                    else:
+                        print("brother eeew")
+
+            for i, (traceKey, systemKey) in enumerate(zip(TracestolenSecrets, mySystem.stolenSecrets)):
+                if(traceKey != systemKey):
+                    for j in range(0 , mySystem.nbNodes):
+                        if( mySystem.nodesStates[j] == 'sM'):
+                            tmpCost2 = C.t5MtoM(mySystem,  mySystem.nodes[j])
+                            print("tmpCost2:", tmpCost2)     
+                            if(tmpCost2 != None and tmpCost2 == traceStepCost):
+                                print('M2M happend')
+                                break
+                        if( mySystem.nodesStates[j] == 'sF'): 
+                            tmpCost = C.t4FtoF(mySystem,  mySystem.nodes[j])
+                            print("tmpCost:", tmpCost)
+                            #print("traceStepCost:", traceStepCost)
+                            if(tmpCost  == (int(traceStepCost) - int(previousStepCost))):
+                                print('F2F happend')
+                                break
+
+            mySystem.nodesStates = nodesTraceStates
+            mySystem.stolenSecrets = TracestolenSecrets
+        resultStructure = mySystem.resultStructure
+#'''            
+
+'''
+for i in range(0, len(mySystem.resultStructure)):
+    res =  mySystem.resultStructure[i]  
+    print('')
+    print("this is the statistics of the  node ", i)
+    print("secrTheftCost:",res.nodeStatistics.secrTheftCostK)
+    for rstatic in res.nodeStatistics.roleStatistics:
+        print("this is the statistics of the  role ",rstatic.roleIndex, "in the node ",res.nodeId)
+        print("costZero is:",rstatic.costZero)
+        print("remoteSecrTheftCost is:",rstatic.remoteSecrTheftCostK)
+        print("nCodeInjectCost is:",rstatic.nCodeInjectCostK)
+        print("bCodeInjectCost is:",rstatic.bCodeInjectCostK)
+        print("mCodeInjectCost is:",rstatic.mCodeInjectCostK)
+        print("dataBreakCost is:",rstatic.dataBreakCostK)  
+        print("Attack Type:",rstatic.protBreakCostStatistics.destructStatistics.attackType)
+        print("with peer:",rstatic.protBreakCostStatistics.destructStatistics.peer)
+        print("with mitm:",rstatic.protBreakCostStatistics.destructStatistics.mitm)
+        print("with side:",rstatic.protBreakCostStatistics.destructStatistics.side)
+        print("Attack Type:",rstatic.protBreakCostStatistics.theftStatistics.attackType)
+        print("with peer:",rstatic.protBreakCostStatistics.theftStatistics.peer)
+        print("with mitm:",rstatic.protBreakCostStatistics.theftStatistics.mitm)
+        print("with side:",rstatic.protBreakCostStatistics.theftStatistics.side)
+
+#'''
+
+
+# Function to resize columns
+def resize_columns(event):
+    tree = event.widget
+    total_width = tree.winfo_width()
+    num_columns = len(tree["columns"])
+    for col in tree["columns"]:
+        tree.column(col, width=int(total_width / num_columns))
+
+# Function to display result structure in a table
+def display_result_structure():
+    root = tk.Tk()
+    root.title("Result Structure")
+    
+    # Set the window size
+    root.geometry("1080x720")
+
+    # Create a frame for the Treeview widget and scrollbar
+    frame = tk.Frame(root)
+    frame.pack(fill=tk.BOTH, expand=True)
+
+    # Define columns, including secr_theft_cost for each node
+    columns = ('Node ID', 'Secret Theft Cost', 'Role Index', 'Cost Zero', 'Remote Secret Theft Cost', 'N Code Inject Cost', 'B Code Inject Cost', 'M Code Inject Cost', 'Data Break Cost', 'Destruct Attack Peer', 'Destruct Attack MITM', 'Destruct Attack Side', 'Theft Attack Peer', 'Theft Attack MITM', 'Theft Attack Side')
+    
+    # Create a Treeview widget
+    tree = ttk.Treeview(frame, columns=columns, show='headings')
+    
+    # Create a style and configure the Treeview header
+    style = ttk.Style()
+    style.configure("Treeview.Heading", background="lightblue", foreground="black", font=('Arial', 10, 'bold'))
+
+    for col in tree['columns']:
+        tree.heading(col, text=col)
+        tree.column(col, width=100, anchor=tk.CENTER)
+
+    # Add alternating row colors
+    tree.tag_configure('oddrow', background='lightgrey')
+    tree.tag_configure('evenrow', background='white')
+
+    # Insert data into the Treeview
+    for i, res in enumerate(resultStructure):
+        node_id = res.nodeId
+        secr_theft_cost = res.nodeStatistics.secrTheftCostK
+        for rstatic in res.nodeStatistics.roleStatistics:
+            tag = 'oddrow' if i % 2 == 0 else 'evenrow'
+            tree.insert('', tk.END, values=(node_id, secr_theft_cost, rstatic.roleIndex, rstatic.costZero, rstatic.remoteSecrTheftCostK, rstatic.nCodeInjectCostK, rstatic.bCodeInjectCostK, rstatic.mCodeInjectCostK, rstatic.dataBreakCostK, rstatic.protBreakCostStatistics.destructStatistics.peer, rstatic.protBreakCostStatistics.destructStatistics.mitm, rstatic.protBreakCostStatistics.destructStatistics.side, rstatic.protBreakCostStatistics.theftStatistics.peer, rstatic.protBreakCostStatistics.theftStatistics.mitm, rstatic.protBreakCostStatistics.theftStatistics.side), tags=(tag,))
+
+    # Create a vertical scrollbar for the Treeview
+    vsb = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
+    vsb.pack(side='right', fill='y')
+    tree.configure(yscrollcommand=vsb.set)
+
+    # Create a horizontal scrollbar for the Treeview
+    hsb = ttk.Scrollbar(frame, orient="horizontal", command=tree.xview)
+    hsb.pack(side='bottom', fill='x')
+    tree.configure(xscrollcommand=hsb.set)
+
+    tree.pack(fill=tk.BOTH, expand=True)
+
+    # Bind the configure event to the resize_columns function
+    tree.bind('<Configure>', resize_columns)
+
+    root.mainloop()
+
+display_result_structure()
